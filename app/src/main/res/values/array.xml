@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="types">
+        <item>Restaurants</item>
+        <item>Suburbs</item>
+        <item>Towns</item>
+        <item>Taxies</item>
+        <item>Pubs</item>
+        <item>Villages</item>
+        <item>Cafe</item>
+        <item>Parking</item>
+        <item>Localities</item>
+        <item>Car wash</item>
+        <item>Ferry terminal</item>
+        <item>Show All</item>
+    </string-array>
+    <string-array name="types_string">
+        <item>restaurant</item>
+        <item>suburb</item>
+        <item>town</item>
+        <item>taxi</item>
+        <item>pub</item>
+        <item>village</item>
+        <item>cafe</item>
+        <item>parking</item>
+        <item>locality</item>
+        <item>car_wash</item>
+        <item>ferry_terminal</item>
+        <item>SHOW_ALL</item>
+    </string-array>
+</resources>

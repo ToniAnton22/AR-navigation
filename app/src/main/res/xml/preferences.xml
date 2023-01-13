@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference android:key="types" android:title="Types of places" android:summary="Choose the type
+    of place." android:entries="@array/types" android:entryValues="@array/types_string"
+        />
+</PreferenceScreen>

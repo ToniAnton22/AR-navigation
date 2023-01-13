@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">AR Navigation</string>
+    <string name="arActivity">Augmented Road</string>
+    <string name="place">See Map</string>
+    <string name="followButton">Go There</string>
+    <string name="delete_all">Delete All</string>
+    <string name="show_all">Show All</string>
+    <string name="set_preferences">Set Preferences</string>
+    <string name="sets_geographic_position">Sets geographic position</string>
+</resources>
