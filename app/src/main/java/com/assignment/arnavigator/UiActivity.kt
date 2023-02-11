@@ -46,14 +46,6 @@ class UiActivity: AppCompatActivity() {
 
         nMgr = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        viewModel.getClosestLocation().observe(this) {
-
-            if (it.distance <= 1000.0) {
-                getNotification(it)
-            }
-
-
-        }
 
         val nv = binding.nv
         val drawerLayout = binding.drawerLayout
