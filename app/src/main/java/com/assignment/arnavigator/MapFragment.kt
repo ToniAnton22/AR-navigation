@@ -57,7 +57,7 @@ class MapFragment: Fragment(R.layout.map_activity) {
         binding.getLocation.setOnClickListener {
             getLocation()
         }
-
+        //comment
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
