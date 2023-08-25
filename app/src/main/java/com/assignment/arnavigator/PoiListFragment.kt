@@ -35,7 +35,7 @@ class PoiListFragment: Fragment(R.layout.list_view), LifecycleOwner {
     ): View {
 
         binding = ListViewBinding.inflate(inflater, container, false)
-        Log.d("BindingAdapter", "${binding}")
+        Log.d("BindingAdapter", "$binding")
 
         return binding.root
     }
@@ -48,14 +48,15 @@ class PoiListFragment: Fragment(R.layout.list_view), LifecycleOwner {
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
         recyclerView.adapter = adapter
-        Log.d("ListtoAdapter", "${recyclerView} adapter ${adapter}")
-        viewModels.getCurrentLocation().observe(this.viewLifecycleOwner, {
-            Log.d("AdapterlatLon","${it}")
-            if(adapter.currentLoc != it){
+        Log.d("ListtoAdapter", "$recyclerView adapter $adapter")
+        viewModels.getCurrentLocation().observe(this.viewLifecycleOwner) {
+            Log.d("AdapterlatLon", "$it")
+            if (adapter.currentLoc != it) {
                 adapter.currentLoc = it
-                adapter.notifyDataSetChanged()
+                adapter.notifyItemRangeChanged(0, adapter.itemCount)
+
             }
-        })
+        }
 
     }
 
@@ -76,8 +77,8 @@ class PoiListFragment: Fragment(R.layout.list_view), LifecycleOwner {
                 var rep = false
                 it.forEach{
                     Log.d("Coordinates","${it.lat},${it.lon}")
-                    for(i in 0 until previousPoi.size) {
-                        if (previousPoi[i].osm_id == it.osm_id){
+                    for(element in previousPoi) {
+                        if (element.osm_id == it.osm_id){
                             rep = true
                             break
                         }

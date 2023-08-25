@@ -9,21 +9,26 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
 import android.view.Menu
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.assignment.arnavigator.data.ClosestPoi
-import com.assignment.arnavigator.data.LatLon
-import com.assignment.arnavigator.data.PoiDataBase
-import com.assignment.arnavigator.data.ViewModels
 import com.assignment.arnavigator.databinding.UiActivityBinding
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import android.view.MenuItem
+import androidx.lifecycle.viewModelScope
 import androidx.preference.PreferenceManager
+import java.util.*
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import com.assignment.arnavigator.data.*
+import com.assignment.arnavigator.proj.Algorithms
+import com.assignment.arnavigator.proj.LonLat
+import com.assignment.arnavigator.proj.SphericalMercatorProjection
 
 
 class UiActivity: AppCompatActivity() {
@@ -31,8 +36,10 @@ class UiActivity: AppCompatActivity() {
     private lateinit var mapFragment: MapFragment
     private lateinit var poiListFragment: PoiListFragment
     val viewModel: ViewModels by viewModels()
+    val poiViewModel: PoiViewModel by viewModels()
     private lateinit var receiver: BroadcastReceiver
     private lateinit var nMgr: NotificationManager
+    val proj = SphericalMercatorProjection()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,7 +81,6 @@ class UiActivity: AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(binding.listfragment.id, poiListFragment)
             .commit()
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -124,7 +130,16 @@ class UiActivity: AppCompatActivity() {
         }
         registerReceiver(receiver,filter)
         ClosestPoi(0.0,0,"")
-
+        val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val type = prefs.getString("types", "SHOW_ALL") ?: "SHOW_ALL"
+        Log.d("Typeof",type)
+        if(type == "SHOW_ALL"){
+            poiListFragment.showAll()
+            mapFragment.markAll()
+        }else{
+            poiListFragment.orderByType(type)
+            mapFragment.markByType(type)
+        }
     }
 
     override fun onResume() {
@@ -145,7 +160,7 @@ class UiActivity: AppCompatActivity() {
         val channelID = "CLOSE_TO_POI"
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            val uniqueId = 12
+            val uniqueId = Date().time.toInt()
             val channel = NotificationChannel(channelID,"Distance",
                 NotificationManager.IMPORTANCE_DEFAULT)
             nMgr.createNotificationChannel(channel)
@@ -157,8 +172,9 @@ class UiActivity: AppCompatActivity() {
                 .build()
 
             nMgr.notify(uniqueId,notification)
+
         }else {
-            val uniqueId = 23
+            val uniqueId = Date().time.toInt()
             val notification = Notification.Builder(this)
                 .setContentTitle("You almost reached")
                 .setContentText("You almost reached ${it.name}")
@@ -175,7 +191,7 @@ class UiActivity: AppCompatActivity() {
         var prevClosestPoi = ClosestPoi(0.0,0,"")
 
         viewModel.getClosestLocation().observe(this) {
-            if (prevClosestPoi.equals(it)) {
+            if (prevClosestPoi == it) {
                 Log.d("The same place","Same place, no need to announce")
             } else {
                 if(it.distance <= 200.0) {

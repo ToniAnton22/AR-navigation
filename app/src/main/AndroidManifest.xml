@@ -23,7 +23,10 @@
             android:name=".MainActivity"
             android:exported="true"
             android:screenOrientation="landscape"
-            android:configChanges="orientation|keyboardHidden|screenSize">
+            android:launchMode="singleInstance"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,13 +40,16 @@
         </activity>
         <activity android:name=".UiActivity"
             android:exported="true"
+            android:launchMode="singleInstance"
             >
+
             <intent-filter>
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MyPrefsActivity">
+        <activity android:name=".MyPrefsActivity"
+            android:launchMode="singleInstance">
 
         </activity>
         <service android:name=".MappingService"/>

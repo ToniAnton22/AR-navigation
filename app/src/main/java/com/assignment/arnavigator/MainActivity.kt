@@ -75,7 +75,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     lateinit var magField: Sensor
     lateinit var accel: Sensor
     lateinit var wm: DisplayManager
-    lateinit var startIntent: Intent
     var k = 0.075f
 
     var acc = FloatArray(3)
@@ -174,7 +173,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
 
                             if(currentLocation != prevLocation ){
-                                Log.d("prevLocation updated","${prevLocation}")
+                                Log.d("prevLocation updated","$prevLocation")
                                 val distance = moving.calulateDistance(
                                     currentLocation.lat,
                                     currentLocation.lon,
@@ -182,7 +181,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                                     prevLocation.lon
                                 )
                                 if(distance > 15){
-                                    Log.d("Location updated","${distance}")
+                                    Log.d("Location updated","$distance")
 
                                     getPoi(currentLocation)
                                     prevLocation = currentLocation
@@ -500,6 +499,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         }
     }
     private fun stopServices(){
+        var startIntent= Intent(this, MappingService::class.java)
         stopService(startIntent)
     }
 

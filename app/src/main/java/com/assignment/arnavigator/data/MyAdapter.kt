@@ -47,7 +47,7 @@ class MyAdapter :
             currentLoc.lon,currentLoc.lat,
             currentItem.lon.toDouble(),currentItem.lat.toDouble())/1000
 
-        Log.d("Adaptervalue", "${currentLoc}")
+        Log.d("Adaptervalue", "$currentLoc")
         if(currentLoc.lat == 0.0 && currentLoc.lon == 0.0){
             myViewHolder.tvDistance.text = "0 km"
 
