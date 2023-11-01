@@ -20,3 +20,9 @@ It uses broadcasting the user's location, notifications, adapters and ViewModels
 To run the app in your IDE, you will need Android Studio Giraffe 2022 (last IDE tried on)
 - Set up a phone emulator (With API between 33 and 29)
 - Run the app and make sure to give it permission to use your camera and location, as the app cannot function otherwise
+
+## How to use it
+
+The start-up page is the AR environment. This is used to find the places near you, and your camera will have an overlay objects in forms of black cubes when it detect a point of interest close to your location
+you can access the menu by dragging it from the right side of the screen. There you can switch to the "map" activity, that has a list of points of interests found in an area of about 2-3 miles away from you, and it will show them on the map fragment below the list.
+Lastly, you can change what points of interest show up based on their category, by selecting the top right menu button, and setting your preferences. The "go there" button currently does nothing.
